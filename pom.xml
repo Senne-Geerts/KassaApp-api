@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>be.sennegeerts</groupId>
-	<artifactId>kassa-app</artifactId>
+	<artifactId>kassa-app-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>kassa-app</name>
+	<name>kassa-app-api</name>
 	<description/>
 	<url/>
 	<licenses>
