@@ -34,7 +34,7 @@
             { name = "PGHOST";    eval = "$PGDATA"; }       # psql/createdb use the socket
             { name = "PGPORT";    value = "5433"; }         # keep off 5432 so a system Postgres won't clash
             # Datasource for Spring Boot. URL + username are safe to commit; password comes from .env.
-            { name = "SPRING_DATASOURCE_URL";      eval = "jdbc:postgresql://localhost:$PGPORT/kassa_app"; }
+            { name = "SPRING_DATASOURCE_URL";      eval = "jdbc:postgresql://localhost:$PGPORT/kassa_development"; }
             { name = "SPRING_DATASOURCE_USERNAME"; value = "kassa"; }
           ];
 

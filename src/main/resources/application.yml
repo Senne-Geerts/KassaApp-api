@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: kassa-app
+
+  # URL and username have localhost defaults so the file is self-documenting;
+  # the password has no default, so it must come from the environment (.env via direnv).
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/kassa_development}
+    username: ${SPRING_DATASOURCE_USERNAME:kassa}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    hibernate:
+      # Flyway owns the schema; Hibernate only checks the entities match it.
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+logging:
+  level:
+    org.hibernate.SQL: debug
