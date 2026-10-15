@@ -52,7 +52,7 @@ public class Event {
 
     // --- domain behaviour ---
 
-    public void addCategory(Category category) {
+/*     public void addCategory(Category category) {
         categories.add(category);
         category.setEvent(this);
     }
@@ -61,14 +61,14 @@ public class Event {
      * Copies this event with its categories and products, so a new edition
      * (e.g. next year's Pasta di Skippy) starts with last year's menu.
      * Orders are NOT copied.
-     */
+     
     public Event cloneAs(String newName, String newSlug, LocalDate newStartsAt) {
         Event copy = new Event(newName, newSlug, newStartsAt);
         for (Category c : categories) {
             copy.addCategory(c.copy());
         }
         return copy;
-    }
+    } */
 
     // --- getters / setters ---
 

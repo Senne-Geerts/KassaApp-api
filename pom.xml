@@ -44,8 +44,12 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Flyway 10 (pulled in by Boot 3.3) splits DB support into per-database modules.
-             flyway-core alone will NOT recognise Postgres — this second dependency is required. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-flyway</artifactId>
+        </dependency>
+
+        <!-- Flyway splits database support into per-database modules. -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
