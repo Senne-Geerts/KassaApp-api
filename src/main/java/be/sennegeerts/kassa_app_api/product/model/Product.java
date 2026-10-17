@@ -33,6 +33,7 @@ public class Product {
         this.category = category;
         this.name = name;
         this.price = price;
+        this.sortOrder = sortOrder;
     }
  
     public UUID getId() { return id; }

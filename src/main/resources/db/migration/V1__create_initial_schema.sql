@@ -40,3 +40,6 @@ CREATE TABLE order_line (
     name_snapshot VARCHAR(100) NOT NULL,
     CONSTRAINT uq_order_line_order_product UNIQUE (order_id, product_id)
 );
+
+CREATE INDEX idx_product_category ON product (category_id);
+CREATE INDEX idx_orders_event_created ON orders (event_id, created_at);
