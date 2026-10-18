@@ -1,13 +1,16 @@
 package be.sennegeerts.kassa_app_api.event.controller;
 
-import be.sennegeerts.kassa_app_api.event.dto.CreateEventRequest;
+import be.sennegeerts.kassa_app_api.event.dto.EventRequest;
 import be.sennegeerts.kassa_app_api.event.dto.EventResponse;
-import be.sennegeerts.kassa_app_api.event.dto.UpdateEventRequest;
 import be.sennegeerts.kassa_app_api.event.service.EventService;
+import jakarta.validation.Valid;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,13 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class EventController {
     private final EventService eventService;
 
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
-    }
+    public EventController(EventService eventService) { this.eventService = eventService; }
 
+    // GET /api/events?activeOnly=true  -> home screen buttons
     @GetMapping
-    public List<EventResponse> getAllEvents() {
-        return eventService.findAll();
+    public List<EventResponse> getAllEvents(@RequestParam(defaultValue = "false") boolean activeOnly) {
+        return eventService.findAll(activeOnly);
     }
 
     @GetMapping("/{id}")
@@ -35,16 +37,18 @@ public class EventController {
     }
 
     @PostMapping
-    public EventResponse createEvent(@RequestBody CreateEventRequest request) {
-        return eventService.create(request);
+    public ResponseEntity<EventResponse> createEvent(@Valid @RequestBody EventRequest request) {
+        EventResponse created = eventService.create(request);
+        return ResponseEntity.created(URI.create("/api/events/" + created.id())).body(created);
     }
 
     @PutMapping("/{id}")
-    public EventResponse updateEvent(@PathVariable UUID id, @RequestBody UpdateEventRequest request) {
+    public EventResponse updateEvent(@PathVariable UUID id, @Valid @RequestBody EventRequest request) {
         return eventService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEvent(@PathVariable UUID id) {
         eventService.delete(id);
     }

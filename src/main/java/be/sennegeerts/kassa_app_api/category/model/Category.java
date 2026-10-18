@@ -36,6 +36,22 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("sortOrder ASC")
     private List<Product> products = new ArrayList<>();
+
+    public List<Product> getProducts() { return products; }
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.setCategory(this);
+    }
+
+    /** Copy of this category (with its products) that belongs to newEvent. */
+    public Category copyFor(Event newEvent) {
+        Category copy = new Category(newEvent, name, sortOrder);
+        for (Product p : products) {
+            copy.products.add(p.copyFor(copy));
+        }
+        return copy;
+    }
  
     @Column(nullable = false, length = 100)
     private String name;
@@ -58,4 +74,5 @@ public class Category {
     public void setName(String name) { this.name = name; }
     public int getSortOrder() { return sortOrder; }
     public void setSortOrder(int sortOrder) { this.sortOrder = sortOrder; }
+    public void setEvent(Event event) { this.event = event; } 
 }

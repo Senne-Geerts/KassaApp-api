@@ -3,6 +3,10 @@ package be.sennegeerts.kassa_app_api.event.model;
 import be.sennegeerts.kassa_app_api.category.model.Category;
 import be.sennegeerts.kassa_app_api.order.model.Order;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,10 +21,13 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    public static final String SLUG_REGEX = "^[a-z0-9]+(-[a-z0-9]+)*$";
+
+    @NotBlank @Size(max = 255)
     @Column(nullable = false)
     private String name;
 
-    // Used for the URL, e.g. /pasta or /kaaswijn (replaces the hardcoded routes)
+    @NotBlank @Pattern(regexp = SLUG_REGEX)
     @Column(nullable = false, unique = true)
     private String slug;
 
@@ -52,7 +59,7 @@ public class Event {
 
     // --- domain behaviour ---
 
-/*     public void addCategory(Category category) {
+     public void addCategory(Category category) {
         categories.add(category);
         category.setEvent(this);
     }
@@ -61,15 +68,14 @@ public class Event {
      * Copies this event with its categories and products, so a new edition
      * (e.g. next year's Pasta di Skippy) starts with last year's menu.
      * Orders are NOT copied.
-     
+     */
     public Event cloneAs(String newName, String newSlug, LocalDate newStartsAt) {
         Event copy = new Event(newName, newSlug, newStartsAt);
         for (Category c : categories) {
-            copy.addCategory(c.copy());
+            copy.categories.add(c.copyFor(copy));
         }
         return copy;
-    } */
-
+    }
     // --- getters / setters ---
 
     public UUID getId() { return id; }

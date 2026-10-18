@@ -35,6 +35,11 @@ public class Product {
         this.price = price;
         this.sortOrder = sortOrder;
     }
+
+    /** Copy of this product that belongs to newCategory. */
+    public Product copyFor(Category newCategory) {
+        return new Product(newCategory, name, price, sortOrder);
+    }
  
     public UUID getId() { return id; }
     public Category getCategory() { return category; }
