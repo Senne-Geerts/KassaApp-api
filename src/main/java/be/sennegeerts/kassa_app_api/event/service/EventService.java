@@ -72,4 +72,11 @@ public class EventService {
     private ResponseStatusException slugTaken(String slug) {
         return new ResponseStatusException(HttpStatus.CONFLICT, "Slug already in use: " + slug);
     }
+
+    public EventResponse cloneEvent(UUID id, EventRequest request) {
+        Event source = getOrThrow(id);
+        if (events.existsBySlug(request.slug())) throw slugTaken(request.slug());
+        Event copy = source.cloneAs(request.name(), request.slug(), request.startsAt());
+        return EventResponse.from(events.save(copy));
+    }
 }

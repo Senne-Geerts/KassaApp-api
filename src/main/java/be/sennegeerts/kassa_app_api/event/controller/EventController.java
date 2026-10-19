@@ -52,4 +52,11 @@ public class EventController {
     public void deleteEvent(@PathVariable UUID id) {
         eventService.delete(id);
     }
+
+    @PostMapping("/{id}/clone")
+    public ResponseEntity<EventResponse> cloneEvent(@PathVariable UUID id,
+                                                    @Valid @RequestBody EventRequest request) {
+        EventResponse created = eventService.cloneEvent(id, request);
+        return ResponseEntity.created(URI.create("/api/events/" + created.id())).body(created);
+    }
 }
