@@ -2,6 +2,8 @@ package be.sennegeerts.kassa_app_api.common;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.stream.Collectors;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.validation.FieldError;
@@ -26,5 +28,10 @@ public class ApiExceptionHandler {
                         fe -> String.valueOf(fe.getDefaultMessage()),
                         (a, b) -> a)));
         return pd;
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ProblemDetail conflict(DataIntegrityViolationException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "Duplicate or conflicting data");
     }
 }

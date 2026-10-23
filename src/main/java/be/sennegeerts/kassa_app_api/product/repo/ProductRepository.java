@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ProductRepository extends JpaRepository<Product, UUID> {
     List<Product> findByCategoryIdOrderBySortOrderAsc(UUID categoryId);
+    List<Product> findByIdInAndCategoryEventId(Collection<UUID> ids, UUID eventId);
     Optional<Product> findByIdAndCategoryId(UUID id, UUID categoryId);
     boolean existsByCategoryIdAndName(UUID categoryId, String name);
     boolean existsByCategoryIdAndNameAndIdNot(UUID categoryId, String name, UUID id);
